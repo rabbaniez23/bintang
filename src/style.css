@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+@theme {
+  /* --- Colors (Futuristic Tech Palette) --- */
+  --color-primary: #0a192f; /* Navy Navy */
+  --color-secondary: #00e0ff; /* Neon Blue */
+  --color-accent: #007bff; /* Deep Blue */
+  --color-surface: #112240; /* Dark Blue Surface */
+  --color-surface-light: #1d3557; /* Lighter Blue Surface */
+
+  /* Mappings for existing components to avoid breakage */
+  --color-primary-blue: #00e0ff; /* Map old primary to Neon */
+  --color-deep-blue: #007bff; /* Map old deep to Accent */
+  --color-navy-dark: #0a192f; /* Map old navy to Primary */
+  --color-light-gray: #0a192f; /* Bg is now dark */
+  --color-medium-gray: #8892b0; /* Slate text */
+  --color-surface-white: #112240; /* Cards are now dark */
+  --color-charcoal: #e2e8f0; /* Text is now light */
+
+  /* --- Typography --- */
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-primary: "Inter", sans-serif; /* Fallback */
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* --- Spacing --- */
+  --spacing-128: 32rem;
+
+  /* --- Shadows --- */
+  --shadow-neon:
+    0 0 10px rgba(0, 224, 255, 0.5), 0 0 20px rgba(0, 224, 255, 0.3);
+  --shadow-neon-strong:
+    0 0 20px rgba(0, 224, 255, 0.8), 0 0 40px rgba(0, 224, 255, 0.4);
+}
+
+/* Base Styles Update */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-primary);
+    color: #e2e8f0;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  body {
+    font-family: var(--font-body);
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-light-gray);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-blue);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-deep-blue);
+}
+
+/* Utilities */
+@layer utilities {
+  .glow-text {
+    text-shadow: 0 0 10px rgba(0, 224, 255, 0.5);
+  }
+
+  .glass-panel {
+    background: rgba(17, 34, 64, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 224, 255, 0.1);
+  }
+
+  .bg-grid-pattern {
+    /* Use Neon Blue/Secondary with low opacity for visibility */
+    background-image:
+      linear-gradient(to right, rgba(0, 224, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 224, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    /* Optional: gentler mask */
+    mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+    -webkit-mask-image: radial-gradient(
+      circle at center,
+      black 60%,
+      transparent 100%
+    );
+  }
+}
