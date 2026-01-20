@@ -5,240 +5,133 @@ import { gsap } from "gsap";
 const heroRef = ref(null);
 
 onMounted(() => {
-  // GSAP animations
-  const tl = gsap.timeline();
+  const ctx = gsap.context(() => {
+    // 1. Animasi Horizontal Scroll (Marquee)
+    // Tetap dipertahankan karena Anda suka efek ini
+    gsap.to(".marquee-text", {
+      xPercent: -50,
+      repeat: -1,
+      duration: 20,
+      ease: "linear",
+    });
 
-  tl.from(".hero-text-element", {
-    y: 50,
-    opacity: 0,
-    duration: 1,
-    stagger: 0.2,
-    ease: "power3.out",
-  });
+    // 2. Animasi Elemen Masuk (AOS Style menggunakan GSAP)
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-  // Stagger the 4 images
-  tl.from(
-    ".hero-grid-image",
-    {
+    tl.from(".hero-content-anim", {
+      y: 50,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.15,
+    })
+    .from(".hero-image-anim", {
       scale: 0.8,
       opacity: 0,
-      duration: 0.8,
-      stagger: 0.1,
+      duration: 1.2,
       ease: "back.out(1.7)",
-    },
-    "-=0.5",
-  );
+    }, "-=0.8");
+
+  }, heroRef.value);
 });
 </script>
 
 <template>
-  <section
-    ref="heroRef"
-    class="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden"
-    id="home"
-  >
-    <!-- Background Elements -->
-    <div class="absolute inset-0 z-0">
-      <div class="absolute inset-0 bg-primary opacity-90"></div>
-      <div
-        class="absolute w-[800px] h-[800px] bg-secondary/10 rounded-full blur-[120px] -top-20 -right-20 animate-pulse"
-      ></div>
-      <div
-        class="absolute w-[600px] h-[600px] bg-accent/10 rounded-full blur-[100px] bottom-0 left-0"
-      ></div>
+  <section ref="heroRef" id="home" class="relative h-[100dvh] flex items-center justify-center overflow-hidden bg-primary">
+    
+    <div class="absolute inset-0 bg-grid-pattern opacity-20 pointer-events-none z-0"></div>
+    
+    <div class="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[120px] animate-pulse-slow pointer-events-none z-0"></div>
+    <div class="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-accent/10 rounded-full blur-[100px] animate-pulse-slow pointer-events-none z-0"></div>
+
+    <div class="absolute top-1/2 -translate-y-1/2 w-full overflow-hidden opacity-5 pointer-events-none select-none z-0">
+      <div class="marquee-text flex whitespace-nowrap">
+        <!-- <span class="text-[10rem] lg:text-[15rem] font-display font-bold text-white leading-none px-4">
+          DAKWAH CREATOR • PUBLIC SPEAKER • YOUTH INFLUENCER • 
+        </span>
+        <span class="text-[10rem] lg:text-[15rem] font-display font-bold text-white leading-none px-4">
+          DAKWAH CREATOR • PUBLIC SPEAKER • YOUTH INFLUENCER • 
+        </span> -->
+      </div>
     </div>
+    <div class="max-w-7xl w-full mx-auto px-6 lg:px-12 relative z-10 pt-16">
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        
+        <div class="text-center lg:text-left space-y-5 order-2 lg:order-1">
+          
+          <div class="hero-content-anim inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-panel border border-secondary/20 shadow-[0_0_15px_rgba(0,224,255,0.05)] mx-auto lg:mx-0">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+            </span>
+            <span class="text-[10px] font-mono text-secondary tracking-widest uppercase">Dakwah & Lifestyle</span>
+          </div>
 
-    <div
-      class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 w-full grid lg:grid-cols-2 gap-12 items-center"
-    >
-      <!-- Left Content -->
-      <div>
-        <div class="flex items-center gap-4 mb-6 hero-text-element">
-          <span class="h-px w-12 bg-secondary"></span>
-          <span
-            class="text-secondary font-display font-medium tracking-[0.2em] uppercase text-sm"
-          >
-            // Izinkan Saya Memperkenalkan Diri
-          </span>
-        </div>
+          <h1 class="hero-content-anim text-4xl lg:text-6xl font-display font-bold leading-tight text-white tracking-tight">
+            Merangkul Jiwa, <br />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-secondary to-accent glow-text">
+              Menebar Hidayah.
+            </span>
+          </h1>
 
-        <h1
-          class="hero-text-element text-4xl lg:text-6xl font-display font-bold text-white leading-none mb-8 tracking-tighter"
-        >
-          HELPING YOU <br />
-          <span
-            class="text-transparent bg-clip-text bg-linear-to-r from-white to-slate-500"
-            >NAVIGATE THE</span
-          >
-          <br />
-          <span class="text-secondary glow-text">FUTURE OF TECH</span>
-        </h1>
+          <p class="hero-content-anim text-slate-400 text-sm lg:text-base leading-relaxed max-w-lg mx-auto lg:mx-0">
+            Hai, saya <strong class="text-white">Bintang Ramadan</strong>. Mengajak generasi muda kembali mencintai Islam dengan cara yang asik, relevan, dan menyentuh hati.
+          </p>
 
-        <p
-          class="hero-text-element text-slate-400 text-lg lg:text-xl max-w-xl leading-relaxed mb-10 font-light border-l border-white/10 pl-6"
-        >
-          Seorang Tech Evangelist dan Edukator yang berfokus membantu Anda
-          menemukan peluang di era kecerdasan buatan dan transformasi digital.
-        </p>
+          <div class="hero-content-anim flex flex-wrap gap-3 justify-center lg:justify-start pt-2">
+            <a href="#contact" 
+               class="px-6 py-3 bg-secondary text-primary font-bold text-xs uppercase tracking-widest rounded-lg hover:shadow-[0_0_20px_rgba(0,224,255,0.4)] transition-all transform hover:-translate-y-1">
+              Undang Kajian
+            </a>
+            <a href="#portfolio" 
+               class="px-6 py-3 bg-transparent border border-white/20 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-white/5 transition-all">
+              Lihat Konten
+            </a>
+          </div>
 
-        <div class="hero-text-element flex flex-wrap gap-6 items-center">
-          <a
-            class="bg-secondary text-primary px-8 py-4 font-display font-bold uppercase tracking-widest hover:shadow-neon hover:scale-105 transition-all duration-3000 flex items-center gap-2"
-            href="/cv.pdf"
-            download
-          >
-            <span class="material-symbols-outlined text-lg">download</span>
-            Download CV
-          </a>
-          <a
-            class="flex items-center gap-3 text-white hover:text-secondary transition-colors group"
-            href="#portfolio"
-          >
-            <div
-              class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:border-secondary group-hover:shadow-neon transition-all"
-            >
-              <span class="material-symbols-outlined">visibility</span>
+          <div class="hero-content-anim pt-4 flex items-center justify-center lg:justify-start gap-4 opacity-80">
+            <div class="flex items-center gap-1.5 text-slate-400">
+               <span class="material-symbols-outlined text-base">check_circle</span>
+               <span class="text-[10px] font-mono uppercase">20k+ Jamaah Online</span>
             </div>
-            <span class="font-display uppercase tracking-widest text-xs"
-              >Aktivitas Saya</span
-            >
-          </a>
-        </div>
-      </div>
-
-      <!-- Right: 4-Grid Images -->
-      <div class="relative flex items-center justify-center">
-        <!-- Decorative background for grid -->
-        <div
-          class="absolute inset-0 bg-secondary/5 blur-3xl rounded-full transform rotate-12 scale-110 pointer-events-none"
-        ></div>
-
-        <div
-          class="grid grid-cols-2 gap-4 relative z-10 w-full max-w-xs md:max-w-md transition-transform duration-700 ease-out"
-        >
-          <!-- Image 1 -->
-          <div
-            class="hero-grid-image aspect-square rounded-2xl overflow-hidden border border-white/10 shadow-lg group relative"
-          >
-            <img
-              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
-              alt="Speaker 1"
-              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
-            />
-            <div
-              class="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors"
-            ></div>
-          </div>
-          <!-- Image 2 -->
-          <div
-            class="hero-grid-image aspect-square rounded-2xl overflow-hidden border border-white/10 shadow-lg group relative mt-8"
-          >
-            <img
-              src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
-              alt="Speaker 2"
-              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
-            />
-            <div
-              class="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors"
-            ></div>
-          </div>
-          <!-- Image 3 -->
-          <div
-            class="hero-grid-image aspect-square rounded-2xl overflow-hidden border border-white/10 shadow-lg group relative -mt-8"
-          >
-            <img
-              src="https://images.unsplash.com/photo-1475721027767-p05fa6e20db7?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
-              alt="Speaker 3"
-              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
-            />
-            <div
-              class="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors"
-            ></div>
-          </div>
-          <!-- Image 4 -->
-          <div
-            class="hero-grid-image aspect-square rounded-2xl overflow-hidden border border-white/10 shadow-lg group relative"
-          >
-            <img
-              src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
-              alt="Speaker 4"
-              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
-            />
-            <div
-              class="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors"
-            ></div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Soundwave Bottom -->
-    <div
-      class="absolute bottom-10 left-0 w-full flex justify-center opacity-50 z-10 pointer-events-none"
-    >
-      <div class="soundwave-container h-16 flex items-center gap-1">
-        <div class="bar" style="animation-delay: 0s"></div>
-        <div class="bar" style="animation-delay: 0.2s"></div>
-        <div class="bar" style="animation-delay: 0.4s"></div>
-        <div class="bar" style="animation-delay: 0.1s"></div>
-        <div class="bar" style="animation-delay: 0.5s"></div>
-        <div class="bar" style="animation-delay: 0.3s"></div>
-        <div class="bar" style="animation-delay: 0s"></div>
-        <div class="bar" style="animation-delay: 0.2s"></div>
-        <div class="bar" style="animation-delay: 0.4s"></div>
+        <div class="hero-image-anim relative flex items-center justify-center order-1 lg:order-2">
+          
+          <div class="absolute w-[280px] h-[280px] lg:w-[400px] lg:h-[400px] border border-secondary/20 rounded-full animate-[spin_20s_linear_infinite]"></div>
+          
+          <div class="relative z-10 w-[240px] h-[320px] lg:w-[320px] lg:h-[420px] bg-surface-light rounded-2xl border border-white/10 overflow-hidden shadow-2xl group rotate-2 hover:rotate-0 transition-all duration-500">
+            
+            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent z-20"></div>
+            
+            <img 
+              src="https://placehold.co/800x1200/1d3557/00e0ff?text=Bintang" 
+              alt="Bintang Ramadan" 
+              class="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700"
+            />
+
+            <div class="absolute bottom-4 left-4 z-30">
+               <p class="text-white font-display font-bold text-lg">Bintang Ramadan</p>
+               <p class="text-secondary text-[10px] uppercase tracking-widest">Influencer Dakwah</p>
+            </div>
+          </div>
+
+          <div class="absolute top-[10%] right-[10%] lg:right-[15%] glass-panel p-3 rounded-lg border border-white/10 shadow-lg animate-float z-30">
+            <span class="material-symbols-outlined text-secondary text-xl">mic_external_on</span>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 </template>
 
 <style scoped>
-.soundwave-container .bar {
-  width: 6px;
-  height: 10px;
-  background: #00e0ff;
-  border-radius: 4px;
-  animation: sound 1.5s ease-in-out infinite;
-  box-shadow: 0 0 10px rgba(0, 224, 255, 0.5);
+/* Custom Keyframes */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }
-@keyframes sound {
-  0%,
-  100% {
-    height: 10px;
-    opacity: 0.3;
-  }
-  50% {
-    height: 60px;
-    opacity: 1;
-  }
-}
-
-.mask-gradient {
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    black 10%,
-    black 90%,
-    transparent
-  );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent,
-    black 10%,
-    black 90%,
-    transparent
-  );
-}
-
-.animate-marquee-reverse {
-  animation: marquee 30s linear infinite reverse;
-}
-
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
+.animate-float { animation: float 5s ease-in-out infinite; }
+.animate-pulse-slow { animation: pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
 </style>

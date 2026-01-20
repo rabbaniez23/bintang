@@ -5,7 +5,8 @@ const isScrolled = ref(false);
 const isMobileMenuOpen = ref(false);
 
 const handleScroll = () => {
-  isScrolled.value = window.scrollY > 20;
+  // Ubah state saat scroll lebih dari 50px
+  isScrolled.value = window.scrollY > 50;
 };
 
 const toggleMobileMenu = () => {
@@ -23,100 +24,77 @@ onUnmounted(() => {
 
 <template>
   <nav
-    class="fixed top-0 w-full z-50 transition-all duration-300 border-b border-white/5"
-    :class="isScrolled ? 'glass-panel h-20' : 'bg-transparent h-24'"
+    class="fixed left-0 right-0 z-50 transition-all duration-500 ease-in-out"
+    :class="
+      isScrolled
+        ? 'top-4 px-4 md:px-0' // Saat scroll: Melayang & ada jarak atas
+        : 'top-0 px-0' // Saat diatas: Full width
+    "
   >
-    <div class="max-w-7xl mx-auto px-6 lg:px-8 h-full">
-      <div class="flex justify-between items-center h-full">
-        <!-- Logo -->
-        <div class="flex items-center gap-3 group cursor-pointer">
-          <div class="relative w-10 h-10 flex items-center justify-center">
-            <div
-              class="absolute inset-0 border border-secondary/30 rounded-full group-hover:animate-ping opacity-20"
-            ></div>
-            <div
-              class="absolute inset-0 border border-secondary rounded-full group-hover:shadow-neon transition-all duration-300"
-            ></div>
-            <span class="material-symbols-outlined text-secondary text-lg"
-              >graphic_eq</span
-            >
-          </div>
-          <div>
-            <span
-              class="text-xl font-display font-bold text-white tracking-tighter"
-              >TECH<span class="text-secondary">SPEAKER</span></span
-            >
-            <p
-              class="text-[9px] text-secondary tracking-[0.2em] uppercase leading-none"
-            >
-              Innovate. Lead.
-            </p>
-          </div>
+    <div
+      class="mx-auto transition-all duration-500 flex items-center justify-between"
+      :class="
+        isScrolled
+          ? 'max-w-5xl glass-panel rounded-2xl h-16 shadow-neon/20 border-white/10 px-6' // Style kapsul saat scroll
+          : 'max-w-7xl h-24 bg-transparent px-6 lg:px-8 border-transparent' // Style transparan saat diatas
+      "
+    >
+      <div class="flex items-center gap-2 group cursor-pointer">
+        <div class="relative w-8 h-8 flex items-center justify-center overflow-hidden rounded-lg">
+           <div class="absolute inset-0 bg-secondary/20 group-hover:bg-secondary/40 transition-all"></div>
+           <span class="material-symbols-outlined text-secondary text-sm font-bold">mic_external_on</span>
         </div>
-
-        <!-- Desktop Menu -->
-        <div class="hidden md:flex items-center gap-10">
-          <a
-            class="text-sm font-medium text-slate-300 hover:text-secondary hover:glow-text transition-all tracking-wide uppercase"
-            href="#home"
-            >Beranda</a
-          >
-          <a
-            class="text-sm font-medium text-slate-300 hover:text-secondary hover:glow-text transition-all tracking-wide uppercase"
-            href="#about"
-            >Tentang</a
-          >
-          <a
-            class="text-sm font-medium text-slate-300 hover:text-secondary hover:glow-text transition-all tracking-wide uppercase"
-            href="#expertise"
-            >Topik</a
-          >
-          <a
-            class="relative px-6 py-2 bg-transparent border border-secondary text-secondary font-display font-bold uppercase tracking-widest text-xs hover:bg-secondary hover:text-primary hover:shadow-neon transition-all duration-300 group overflow-hidden"
-            href="#contact"
-          >
-            <span class="relative z-10">Kontak</span>
-            <div
-              class="absolute inset-0 bg-secondary transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out -z-0"
-            ></div>
-          </a>
-        </div>
-
-        <!-- Mobile Toggle -->
-        <div
-          class="md:hidden text-white cursor-pointer"
-          @click="toggleMobileMenu"
-        >
-          <span class="material-symbols-outlined text-3xl">menu</span>
+        
+        <div class="flex flex-col">
+          <span class="text-lg font-display font-bold text-white tracking-tight leading-none group-hover:text-secondary transition-colors">
+            NAUFAL<span class="font-light opacity-80">RIZKI</span>
+          </span>
+          <span v-if="!isScrolled" class="text-[9px] text-slate-400 tracking-[0.3em] uppercase mt-1 opacity-0 md:opacity-100 transition-opacity duration-300">
+            Educator & Speaker
+          </span>
         </div>
       </div>
+
+      <div class="hidden md:flex items-center gap-8">
+        <a v-for="item in ['Beranda', 'Tentang', 'Topik']" 
+           :key="item"
+           :href="`#${item.toLowerCase()}`"
+           class="text-[12px] font-medium text-slate-300 hover:text-secondary hover:glow-text transition-all tracking-[0.15em] uppercase relative group"
+        >
+          {{ item }}
+          <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-secondary transition-all duration-300 group-hover:w-full"></span>
+        </a>
+
+        <a
+          href="#contact"
+          class="px-5 py-2 rounded-lg bg-secondary/10 border border-secondary/30 text-secondary font-display font-bold text-[10px] uppercase tracking-widest hover:bg-secondary hover:text-primary hover:shadow-neon transition-all duration-300 transform hover:-translate-y-0.5"
+        >
+          Undang Bicara
+        </a>
+      </div>
+
+      <button class="md:hidden text-white hover:text-secondary transition-colors" @click="toggleMobileMenu">
+        <span class="material-symbols-outlined">menu_open</span>
+      </button>
     </div>
 
-    <!-- Mobile Menu Overlay -->
-    <div
-      v-if="isMobileMenuOpen"
-      class="absolute top-full left-0 w-full bg-surface border-b border-white/10 p-6 flex flex-col gap-4 shadow-xl"
+    <transition
+      enter-active-class="transition duration-200 ease-out"
+      enter-from-class="transform -translate-y-4 opacity-0"
+      enter-to-class="transform translate-y-0 opacity-100"
+      leave-active-class="transition duration-150 ease-in"
+      leave-from-class="transform translate-y-0 opacity-100"
+      leave-to-class="transform -translate-y-4 opacity-0"
     >
-      <a
-        href="#home"
-        class="text-slate-300 hover:text-secondary uppercase tracking-widest text-sm"
-        >Beranda</a
+      <div
+        v-if="isMobileMenuOpen"
+        class="absolute top-full left-4 right-4 mt-2 glass-panel rounded-xl p-6 flex flex-col gap-4 shadow-xl border border-white/10"
       >
-      <a
-        href="#about"
-        class="text-slate-300 hover:text-secondary uppercase tracking-widest text-sm"
-        >Tentang</a
-      >
-      <a
-        href="#expertise"
-        class="text-slate-300 hover:text-secondary uppercase tracking-widest text-sm"
-        >Topik</a
-      >
-      <a
-        href="#contact"
-        class="text-secondary font-bold uppercase tracking-widest text-sm"
-        >Kontak</a
-      >
-    </div>
+        <a href="#home" class="text-slate-300 hover:text-secondary text-sm font-medium">Beranda</a>
+        <a href="#about" class="text-slate-300 hover:text-secondary text-sm font-medium">Tentang</a>
+        <a href="#expertise" class="text-slate-300 hover:text-secondary text-sm font-medium">Topik</a>
+        <a href="#contact" class="text-secondary font-bold text-sm">Undang Bicara</a>
+      </div>
+    </transition>
   </nav>
 </template>
