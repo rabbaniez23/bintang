@@ -105,7 +105,7 @@ onMounted(() => {
             <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent z-20"></div>
             
             <img 
-              src="https://placehold.co/800x1200/1d3557/00e0ff?text=Bintang" 
+              src="/bintang.jpeg" 
               alt="Bintang Ramadan" 
               class="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700"
             />

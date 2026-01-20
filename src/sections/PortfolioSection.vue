@@ -1,249 +1,197 @@
-<script setup></script>
+<script setup>
+import { onMounted, ref } from "vue";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const portfolioRef = ref(null);
+
+// Data Portofolio: Kombinasi Dakwah, Tech (CS Student), dan Event
+const projects = ref([
+  {
+    category: "Community Platform",
+    title: "Hijrah Creative Hub",
+    desc: "Wadah kolaborasi bagi konten kreator muslim untuk menciptakan narasi positif di media sosial.",
+    image:
+      "https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    year: "2025",
+  },
+  {
+    category: "Digital Content",
+    title: "Podcast 'Ngopi Iman'",
+    desc: "Serial podcast mingguan yang membahas isu anak muda dari sudut pandang Islam yang santai.",
+    image:
+      "https://images.unsplash.com/photo-1478737270239-2f02b77ac618?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    year: "2024",
+  },
+  {
+    category: "Web Development",
+    title: "Aplikasi 'MasjidKu'",
+    desc: "Sistem manajemen masjid berbasis web untuk memudahkan infaq dan jadwal kajian (Skripsi Project).",
+    image:
+      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    year: "2024",
+  },
+  {
+    category: "Event Organizer",
+    title: "Youth Leadership Camp",
+    desc: "Bootcamp kepemimpinan islam selama 3 hari untuk mencetak pemimpin masa depan berkarakter.",
+    image:
+      "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    year: "2023",
+  },
+  {
+    category: "Publication",
+    title: "Buku 'Jalan Pulang'",
+    desc: "Buku antologi kisah inspiratif perjalanan hijrah generasi milenial (Best Seller Lokal).",
+    image:
+      "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    year: "2023",
+  },
+  {
+    category: "Education",
+    title: "Mentoring Beasiswa",
+    desc: "Program bimbingan intensif untuk pelajar yang ingin melanjutkan studi ke Timur Tengah & Eropa.",
+    image:
+      "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    year: "2022",
+  },
+]);
+
+onMounted(() => {
+  const ctx = gsap.context(() => {
+    // 1. Animasi Header
+    gsap.from(".port-header-anim", {
+      scrollTrigger: {
+        trigger: portfolioRef.value,
+        start: "top 80%",
+        toggleActions: "play reverse play reverse",
+      },
+      y: 30,
+      opacity: 0,
+      duration: 1,
+      ease: "power2.out",
+    });
+
+    // 2. Animasi Kartu Portofolio
+    gsap.fromTo(
+      ".port-card-anim",
+      { y: 50, autoAlpha: 0 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".portfolio-grid",
+          start: "top bottom",
+          toggleActions: "play reverse play reverse",
+        },
+      },
+    );
+  }, portfolioRef.value);
+});
+</script>
 
 <template>
   <section
-    class="py-24 bg-surface border-y border-white/5 overflow-hidden"
+    ref="portfolioRef"
+    class="py-32 bg-primary relative overflow-hidden"
     id="portfolio"
   >
-    <!-- Header -->
     <div
-      class="max-w-7xl mx-auto px-6 lg:px-8 mb-12 flex items-end justify-between"
-    >
-      <div>
-        <span
-          class="text-secondary font-display font-medium tracking-[0.2em] uppercase text-sm mb-2 block"
-          >Keterlibatan Global</span
-        >
-        <h2 class="text-4xl font-display font-bold text-white">
-          PANGGUNG TERPILIH
-        </h2>
-      </div>
-      <!-- Navigation Buttons (Optional/Removed for Grid) -->
-      <div class="flex gap-4 hidden md:flex opacity-50 cursor-not-allowed">
-        <!-- Kept for consistency but disabled for grid view -->
-      </div>
-    </div>
-
-    <!-- Grid Container (3 cols x 2 rows = 6 items) -->
+      class="absolute inset-0 bg-grid-pattern opacity-20 pointer-events-none"
+    ></div>
     <div
-      class="max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-    >
-      <!-- Card 1 -->
+      class="absolute top-[20%] right-[-10%] w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] animate-pulse-slow pointer-events-none"
+    ></div>
+    <div
+      class="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-accent/10 rounded-full blur-[100px] animate-pulse-slow pointer-events-none"
+    ></div>
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
       <div
-        class="group relative h-[320px] rounded-lg overflow-hidden border border-white/5 bg-primary cursor-pointer"
+        class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6 border-b border-white/10 pb-8 port-header-anim"
       >
-        <img
-          src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-          alt="Tech Summit"
-          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-60 group-hover:opacity-100"
-        />
-        <div
-          class="absolute inset-0 bg-linear-to-t from-primary via-primary/50 to-transparent opacity-90"
-        ></div>
-
-        <div
-          class="absolute bottom-0 left-0 w-full p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500"
-        >
-          <div class="flex items-center gap-2 mb-2">
-            <span
-              class="px-2 py-1 bg-secondary/20 text-secondary text-[10px] font-bold uppercase tracking-widest border border-secondary/20"
-              >Keynote</span
-            >
-            <span class="text-slate-300 text-[10px] uppercase tracking-widest"
-              >Berlin, 2023</span
-            >
-          </div>
-          <h3 class="text-xl font-display font-bold text-white mb-1">
-            Global Tech Summit
-          </h3>
-          <p
-            class="text-slate-400 text-xs mb-4 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100"
+        <div>
+          <span
+            class="text-secondary font-display font-bold tracking-[0.2em] uppercase text-sm mb-2 block"
           >
-            Membahas "Etika Kesadaran Buatan" di hadapan 5.000 pengembang dan
-            pembuat kebijakan.
-          </p>
+            // Featured Works
+          </span>
+          <h2 class="text-4xl md:text-5xl font-display font-bold text-white">
+            KARYA &
+            <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-accent"
+              >KONTRIBUSI</span
+            >
+          </h2>
         </div>
+        <p
+          class="text-slate-400 max-w-sm text-sm text-right md:text-left font-light"
+        >
+          Kumpulan inisiatif, proyek digital, dan gerakan sosial yang telah saya
+          bangun untuk umat.
+        </p>
       </div>
 
-      <!-- Card 2 -->
       <div
-        class="group relative h-[320px] rounded-lg overflow-hidden border border-white/5 bg-primary cursor-pointer"
+        class="portfolio-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
       >
-        <img
-          src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-          alt="Leadership Retreat"
-          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-60 group-hover:opacity-100"
-        />
         <div
-          class="absolute inset-0 bg-linear-to-t from-primary via-primary/50 to-transparent opacity-90"
-        ></div>
-
-        <div
-          class="absolute bottom-0 left-0 w-full p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500"
+          v-for="(project, index) in projects"
+          :key="index"
+          class="port-card-anim group relative rounded-2xl overflow-hidden border border-white/10 bg-surface-light shadow-2xl hover:border-secondary/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-neon/20"
         >
-          <div class="flex items-center gap-2 mb-2">
-            <span
-              class="px-2 py-1 bg-secondary/20 text-secondary text-[10px] font-bold uppercase tracking-widest border border-secondary/20"
-              >Moderator</span
-            >
-            <span class="text-slate-300 text-[10px] uppercase tracking-widest"
-              >Silicon Valley</span
-            >
+          <div class="h-48 w-full overflow-hidden relative">
+            <!-- Removed opacity overlay for better visibility -->
+            <img
+              :src="project.image"
+              :alt="project.title"
+              class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+            />
           </div>
-          <h3 class="text-xl font-display font-bold text-white mb-1">
-            Executive Retreat
-          </h3>
-          <p
-            class="text-slate-400 text-xs mb-4 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100"
-          >
-            Memfasilitasi sesi strategi tingkat tinggi untuk eksekutif C-Suite
-            perusahaan Fortune 100.
-          </p>
-        </div>
-      </div>
 
-      <!-- Card 3 -->
-      <div
-        class="group relative h-[320px] rounded-lg overflow-hidden border border-white/5 bg-primary cursor-pointer"
-      >
-        <img
-          src="https://images.unsplash.com/photo-1559056216-2c5e52da3f78?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-          alt="Future Cities"
-          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-60 group-hover:opacity-100"
-        />
-        <div
-          class="absolute inset-0 bg-linear-to-t from-primary via-primary/50 to-transparent opacity-90"
-        ></div>
+          <div class="p-6 relative">
+            <div
+              class="absolute inset-0 bg-gradient-to-b from-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            ></div>
 
-        <div
-          class="absolute bottom-0 left-0 w-full p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500"
-        >
-          <div class="flex items-center gap-2 mb-2">
-            <span
-              class="px-2 py-1 bg-secondary/20 text-secondary text-[10px] font-bold uppercase tracking-widest border border-secondary/20"
-              >Host</span
-            >
-            <span class="text-slate-300 text-[10px] uppercase tracking-widest"
-              >Tokyo, 2024</span
-            >
+            <div class="relative z-10">
+              <div class="flex justify-between items-center mb-3">
+                <span
+                  class="text-[10px] font-mono uppercase tracking-widest text-secondary bg-secondary/10 px-2 py-1 rounded border border-secondary/20"
+                >
+                  {{ project.category }}
+                </span>
+                <span class="text-slate-500 text-xs font-mono">{{
+                  project.year
+                }}</span>
+              </div>
+
+              <h3
+                class="text-xl font-display font-bold text-white mb-2 group-hover:text-secondary transition-colors"
+              >
+                {{ project.title }}
+              </h3>
+
+              <p
+                class="text-sm text-slate-400 font-light leading-relaxed line-clamp-3 group-hover:text-slate-300 transition-colors"
+              >
+                {{ project.desc }}
+              </p>
+
+              <div
+                class="mt-4 flex items-center gap-2 text-secondary text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300"
+              >
+                Lihat Detail
+                <span class="material-symbols-outlined text-sm"
+                  >arrow_forward</span
+                >
+              </div>
+            </div>
           </div>
-          <h3 class="text-xl font-display font-bold text-white mb-1">
-            Future Cities Expo
-          </h3>
-          <p
-            class="text-slate-400 text-xs mb-4 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100"
-          >
-            Memandu acara imersif 3 hari yang memamerkan teknologi perkotaan
-            abad berikutnya.
-          </p>
-        </div>
-      </div>
-
-      <!-- Card 4 (New) -->
-      <div
-        class="group relative h-[320px] rounded-lg overflow-hidden border border-white/5 bg-primary cursor-pointer"
-      >
-        <img
-          src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-          alt="AI Symposium"
-          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-60 group-hover:opacity-100"
-        />
-        <div
-          class="absolute inset-0 bg-linear-to-t from-primary via-primary/50 to-transparent opacity-90"
-        ></div>
-
-        <div
-          class="absolute bottom-0 left-0 w-full p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500"
-        >
-          <div class="flex items-center gap-2 mb-2">
-            <span
-              class="px-2 py-1 bg-secondary/20 text-secondary text-[10px] font-bold uppercase tracking-widest border border-secondary/20"
-              >Panelis</span
-            >
-            <span class="text-slate-300 text-[10px] uppercase tracking-widest"
-              >London, 2024</span
-            >
-          </div>
-          <h3 class="text-xl font-display font-bold text-white mb-1">
-            AI Ethics Symposium
-          </h3>
-          <p
-            class="text-slate-400 text-xs mb-4 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100"
-          >
-            Mendebarkan implikasi moral AGI dengan filsuf terkemuka dunia.
-          </p>
-        </div>
-      </div>
-
-      <!-- Card 5 (New) -->
-      <div
-        class="group relative h-[320px] rounded-lg overflow-hidden border border-white/5 bg-primary cursor-pointer"
-      >
-        <img
-          src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-          alt="TedX"
-          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-60 group-hover:opacity-100"
-        />
-        <div
-          class="absolute inset-0 bg-linear-to-t from-primary via-primary/50 to-transparent opacity-90"
-        ></div>
-
-        <div
-          class="absolute bottom-0 left-0 w-full p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500"
-        >
-          <div class="flex items-center gap-2 mb-2">
-            <span
-              class="px-2 py-1 bg-secondary/20 text-secondary text-[10px] font-bold uppercase tracking-widest border border-secondary/20"
-              >Speaker</span
-            >
-            <span class="text-slate-300 text-[10px] uppercase tracking-widest"
-              >Singapore, 2025</span
-            >
-          </div>
-          <h3 class="text-xl font-display font-bold text-white mb-1">
-            TEDx Marina Bay
-          </h3>
-          <p
-            class="text-slate-400 text-xs mb-4 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100"
-          >
-            Menyampaikan pembicaraan viral "Kemanusiaan di Era Silikon".
-          </p>
-        </div>
-      </div>
-
-      <!-- Card 6 (New) -->
-      <div
-        class="group relative h-[320px] rounded-lg overflow-hidden border border-white/5 bg-primary cursor-pointer"
-      >
-        <img
-          src="https://images.unsplash.com/photo-1475721027767-p05fa6e20db7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-          alt="Cybersec Conf"
-          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-60 group-hover:opacity-100"
-        />
-        <div
-          class="absolute inset-0 bg-linear-to-t from-primary via-primary/50 to-transparent opacity-90"
-        ></div>
-
-        <div
-          class="absolute bottom-0 left-0 w-full p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500"
-        >
-          <div class="flex items-center gap-2 mb-2">
-            <span
-              class="px-2 py-1 bg-secondary/20 text-secondary text-[10px] font-bold uppercase tracking-widest border border-secondary/20"
-              >Keynote</span
-            >
-            <span class="text-slate-300 text-[10px] uppercase tracking-widest"
-              >New York, 2025</span
-            >
-          </div>
-          <h3 class="text-xl font-display font-bold text-white mb-1">
-            CyberSec World
-          </h3>
-          <p
-            class="text-slate-400 text-xs mb-4 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100"
-          >
-            Opening keynote on the vulnerabilities of quantum cryptography.
-          </p>
         </div>
       </div>
     </div>

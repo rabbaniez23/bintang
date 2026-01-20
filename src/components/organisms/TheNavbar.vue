@@ -39,7 +39,7 @@ onUnmounted(() => {
           : 'max-w-7xl h-24 bg-transparent px-6 lg:px-8 border-transparent' // Style transparan saat diatas
       "
     >
-      <div class="flex items-center gap-2 group cursor-pointer">
+      <div class="flex items-center gap-3 group cursor-pointer">
         <div class="relative w-8 h-8 flex items-center justify-center overflow-hidden rounded-lg">
            <div class="absolute inset-0 bg-secondary/20 group-hover:bg-secondary/40 transition-all"></div>
            <span class="material-symbols-outlined text-secondary text-sm font-bold">mic_external_on</span>
@@ -47,19 +47,19 @@ onUnmounted(() => {
         
         <div class="flex flex-col">
           <span class="text-lg font-display font-bold text-white tracking-tight leading-none group-hover:text-secondary transition-colors">
-            NAUFAL<span class="font-light opacity-80">RIZKI</span>
+            BINTANG<span class="font-light opacity-80">RAMADAN</span>
           </span>
           <span v-if="!isScrolled" class="text-[9px] text-slate-400 tracking-[0.3em] uppercase mt-1 opacity-0 md:opacity-100 transition-opacity duration-300">
-            Educator & Speaker
+            Dakwah & Inspirasi
           </span>
         </div>
       </div>
 
       <div class="hidden md:flex items-center gap-8">
-        <a v-for="item in ['Beranda', 'Tentang', 'Topik']" 
+        <a v-for="item in ['Beranda', 'Tentang', 'Expertise', 'Gallery', 'Portfolio']" 
            :key="item"
            :href="`#${item.toLowerCase()}`"
-           class="text-[12px] font-medium text-slate-300 hover:text-secondary hover:glow-text transition-all tracking-[0.15em] uppercase relative group"
+           class="text-[11px] font-medium text-slate-300 hover:text-secondary hover:glow-text transition-all tracking-[0.15em] uppercase relative group"
         >
           {{ item }}
           <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-secondary transition-all duration-300 group-hover:w-full"></span>
@@ -88,12 +88,14 @@ onUnmounted(() => {
     >
       <div
         v-if="isMobileMenuOpen"
-        class="absolute top-full left-4 right-4 mt-2 glass-panel rounded-xl p-6 flex flex-col gap-4 shadow-xl border border-white/10"
+        class="absolute top-20 left-4 right-4 mt-2 glass-panel rounded-xl p-6 flex flex-col gap-4 shadow-xl border border-white/10"
       >
-        <a href="#home" class="text-slate-300 hover:text-secondary text-sm font-medium">Beranda</a>
-        <a href="#about" class="text-slate-300 hover:text-secondary text-sm font-medium">Tentang</a>
-        <a href="#expertise" class="text-slate-300 hover:text-secondary text-sm font-medium">Topik</a>
-        <a href="#contact" class="text-secondary font-bold text-sm">Undang Bicara</a>
+        <a href="#home" class="text-slate-300 hover:text-secondary text-sm font-medium" @click="isMobileMenuOpen = false">Beranda</a>
+        <a href="#about" class="text-slate-300 hover:text-secondary text-sm font-medium" @click="isMobileMenuOpen = false">Tentang</a>
+        <a href="#expertise" class="text-slate-300 hover:text-secondary text-sm font-medium" @click="isMobileMenuOpen = false">Expertise</a>
+        <a href="#gallery" class="text-slate-300 hover:text-secondary text-sm font-medium" @click="isMobileMenuOpen = false">Gallery</a>
+        <a href="#portfolio" class="text-slate-300 hover:text-secondary text-sm font-medium" @click="isMobileMenuOpen = false">Portfolio</a>
+        <a href="#contact" class="text-secondary font-bold text-sm" @click="isMobileMenuOpen = false">Undang Bicara</a>
       </div>
     </transition>
   </nav>
